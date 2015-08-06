@@ -1,0 +1,76 @@
+<dom-module id="robojs-app">
+    <template>
+        <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+        <paper-toolbar>
+            <h1>Robo . JS</h1>
+        </paper-toolbar>
+        <div class="content">
+            <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+            <iron-pages selected="0">
+                <div>
+                    <link rel="import" href="robojs-main-menu.html">
+                    <robojs-main-menu></robojs-main-menu>
+                </div>
+                <div>
+                    <link rel="import" href="robojs-edit-game.html">
+                    <robojs-edit-game></robojs-edit-game>
+                </div>
+                <div>
+                    <link rel="import" href="robojs-saved-games.html">
+                    <robojs-saved-games></robojs-saved-games>
+                </div>
+                <div>
+                    <link rel="import" href="robojs-arena.html">
+                    <robojs-arena></robojs-arena>
+                </div>
+                <div>
+                    <link rel="import" href="robojs-saved-robots.html">
+                    <robojs-saved-robots></robojs-saved-robots>
+                </div>
+                <div>
+                    <link rel="import" href="robojs-robot-editor.html">
+                    <robojs-robot-editor></robojs-robot-editor>
+                </div>
+            </iron-pages>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "robojs-app",
+        properties: {
+        },
+        ready: function() {
+            window.roboJS.registerPages(this);
+            this.pages = document.querySelector("iron-pages");
+        },
+        changePage: function(target) {
+            switch(target) {
+                case "editGame":
+                    document.querySelector('robojs-edit-game').init();
+                    this.pages.select(1);
+                    break;
+                case "listGames":
+                    document.querySelector('robojs-saved-games').init();
+                    this.pages.select(2);
+                    break;
+                case "arena":
+                    document.querySelector('robojs-arena').init();
+                    this.pages.select(3);
+                    break;
+                case "listRobots":
+                    document.querySelector('robojs-saved-robots').init();
+                    this.pages.select(4);
+                    break;
+                case "editRobot":
+                    this.pages.select(5);
+                    break;
+                default:
+                    this.pages.select(0);
+                    break;
+            }
+        }
+    });
+    
+</script>

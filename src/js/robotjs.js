@@ -1,8 +1,9 @@
-$(document).ready(function() {
-	var canvas = $("#canvas"), ctx = canvas[0].getContext("2d"); 
+//$(document).ready(function() {
+	//var canvas = $("#canvas"), ctx = canvas[0].getContext("2d");
 	var robots = [], bullets = [];
 	
-	console.log = function(){};
+	// I want to see the console log messages, so I am commenting that out
+	//console.log = function(){};
 	
 	// utility functions
 	var Utils = {
@@ -36,6 +37,8 @@ $(document).ready(function() {
 		_robots: {},
 		_explosions: [],
 		_ctx: null,
+		_update_callback: null,
+        _paused: false,
 		
 		init: function(ctx, workers) {
 			var battle_manager = this;
@@ -43,6 +46,9 @@ $(document).ready(function() {
 			
 			for(var w=0; w<workers.length; w++) {
 				var robot_id = "robot-" + w;
+                console.log("init...");
+                console.log(w);
+                console.log(workers);
 				var robot = {
 					"id": robot_id,
 					"x": parseInt((ARENA_WIDTH-150)*Math.random()),
@@ -69,6 +75,10 @@ $(document).ready(function() {
 					"arena_width": ARENA_WIDTH
 				});
 			}
+		},
+		
+		addUpdateListener: function(callback) {
+		    this._update_callback = callback;
 		},
 		
 		_receive: function(robot_id, msg) {
@@ -100,18 +110,36 @@ $(document).ready(function() {
 		run: function() {
 			var battle_manager = this;
 			
-			setInterval(function() {
+            battle_manager._paused = false;
+			battle_manager._interval = setInterval(function() {
 				battle_manager._run();
 			}, 5);
 			battle_manager._send_all({
 				"signal": "RUN"
 			});
 		},
+        pause:function() {
+			var battle_manager = this;
+            clearInterval(battle_manager._interval);
+            battle_manager._paused = true;
+        },
+        resume: function() {
+			var battle_manager = this;
+            battle_manager._paused = false;
+            battle_manager._run();
+        },
 		_run: function() {
 			var battle_manager = this;
+            
+            if(battle_manager._paused) {
+                return;
+            }
 			
 			battle_manager._update();
-			battle_manager._draw()
+			battle_manager._draw();
+			if(battle_manager._update_callback !== null) {
+			    battle_manager._update_callback(battle_manager._robots);
+			}
 		},
 		
 		_update: function () {
@@ -177,8 +205,13 @@ $(document).ready(function() {
 						}
 					}
 				}
-					
-				for(var e=0; e<robot["events"].length; e++) {
+				
+                // SKP: I don't think this should happen but it is
+                if(robot["events"].length == 0) {
+                    battle_manager._send(r, {"signal": "RUN"});
+                }
+                
+				if(robot["events"].length > 0) {
 					var event = robot["events"].pop();
 					if (event === undefined) continue;
 					
@@ -288,6 +321,20 @@ $(document).ready(function() {
 							robot["events"].unshift(event);
 
 							break;
+                        case "ROTATE_RADAR":
+                          if(event["progress"]==Math.abs(event["angle"])) {
+                            this._send(r, {
+                              "signal": "CALLBACK",
+                              "callback_id": event["callback_id"]
+                            });
+                            break;
+                            
+                          }
+                          robot["radar_direction"] += (event["angle"]>0?1:-1);
+                          event["progress"]++;
+                          robot["events"].unshift(event);
+            
+                          break;
 					}
 					this._send(r, {
 						"signal": "UPDATE",
@@ -312,7 +359,6 @@ $(document).ready(function() {
 				ctx.drawImage(body, -18, -18, 36, 36);
 				ctx.rotate(Utils.degree2radian(robot["turret_direction"]));
 				ctx.drawImage(turret, -25, -10, 54, 20);
-				robot["radar_direction"]++;
 				ctx.rotate(Utils.degree2radian(robot["radar_direction"]));
 				ctx.drawImage(radar, -8, -11, 16, 22);
 			}
@@ -333,7 +379,7 @@ $(document).ready(function() {
 					battle_manager._ctx.save();
 					battle_manager._ctx.translate(robot["bullet"]["x"],robot["bullet"]["y"]);
 					battle_manager._ctx.rotate(Utils.degree2radian(robot["bullet"]["direction"]));
-					ctx.fillRect(-3,-3,6,6);
+					battle_manager._ctx.fillRect(-3,-3,6,6);
 					battle_manager._ctx.restore();
 				}
 				
@@ -375,6 +421,6 @@ $(document).ready(function() {
 	//BattleManager.run();
     
     // Add it to the scope so we can control it from Angular
-    canvas.scope().BattleManager = BattleManager;
+    //canvas.scope().BattleManager = BattleManager;
 	
-});
+//});

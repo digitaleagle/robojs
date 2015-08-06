@@ -1,0 +1,53 @@
+<dom-module id="robojs-arena">
+    <template>
+        <div class="vertical layout">
+            <div>
+                <canvas style="border: 1px solid black;" width="800" height="400" id="canvas"></canvas>
+            </div>
+            <div>
+                <paper-button raised on-click="pause">Pause</paper-button>
+                <paper-button raised on-click="start">Start</paper-button>
+            </div>
+            <div>
+                <h2>Robots</h2>
+                <link rel="import" href="robojs-robot-status.html">
+                <robojs-robot-status robot="{{robot}}"></robojs-robot-status>
+                <div ng-repeat="robot in gameState.currentBattleRobots">
+                    <div>{{robot.id}}</div>
+                    <div>Health: {{robot.health}}</div>
+                    <div>Location: {{robot.x}}, {{robot.y}}</div>
+                </div>
+            </div>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "robojs-arena",
+        properties: {
+            robot: {
+                type: String,
+                value: "hello"
+            }
+        },
+        ready: function() {
+            this.games = window.roboJS.games;
+            console.log(this.games);
+            //this.robot = {name: "hello"};
+            this.robot = "hello";
+        },
+        init: function() {
+            console.log("******* init *******");
+            console.log(this.robot);
+            document.querySelector("robojs-robot-status").init();
+        },
+        pause: function() {
+            window.roboJS.pause();
+        },
+        start: function() {
+            console.log(window.roboJS);
+            window.roboJS.resume();
+        }
+    });
+</script>

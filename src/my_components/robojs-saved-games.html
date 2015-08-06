@@ -1,0 +1,29 @@
+<dom-module id="robojs-saved-games">
+    <template>
+        <h2>Saved Games</h2>
+        <div class="vertical layout">
+            <link rel="import" href="../bower_components/paper-button/paper-button.html">
+            <template is="dom-repeat" items="{{games}}">
+                <paper-button on-click="loadGame">Game: <span>{{item.name}}</span></paper-button>
+            </template>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "robojs-saved-games",
+        properties: {
+        },
+        ready: function() {
+        },
+        init: function() {
+            this.games = window.roboJS.games;
+        },
+        loadGame: function(e) {
+            var model = e.model;
+            var game = model.get("item");
+            window.roboJS.editGame(game);
+        }
+    });
+</script>

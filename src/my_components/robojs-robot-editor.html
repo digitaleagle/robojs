@@ -1,0 +1,28 @@
+<dom-module id="robojs-robot-editor">
+    <template>
+        <div class="vertical layout">
+            <link rel="import" href="../bower_components/ace-element-master/ace-element.html">
+            <ace-element>function test() {
+  var x = true;
+}</ace-element>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "robojs-robot-editor",
+        properties: {
+        },
+        ready: function() {
+            this.games = window.roboJS.games;
+            console.log(this.games);
+        },
+        pause: function() {
+            window.roboJS.pause();
+        },
+        start: function() {
+            console.log(window.roboJS);
+            window.roboJS.resume();
+        }
+    });
+</script>

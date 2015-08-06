@@ -1,0 +1,27 @@
+<dom-module id="robojs-robot-status">
+    <template>
+        <div>Robot Name <span>[[robot]]</span><span>{{test}}</span></div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: "robojs-robot-status",
+        properties: {
+            robot: {
+                type: String,
+                value: "testing"
+            },
+            test: {
+                type: String,
+                value: "testing2"
+            }
+        },
+        ready: function() {
+        },
+        init: function() {
+            console.log(this.robot);
+            console.log(this.test);
+        }
+    });
+</script>
