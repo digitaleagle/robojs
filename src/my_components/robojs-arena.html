@@ -11,7 +11,10 @@
             </div>
             <div>
                 <h2>Robots</h2>
-                <robojs-robot-status robot="{{robot}}"></robojs-robot-status>
+                <template is="dom-repeat" items="{{currentBattleRobots}}">
+                    <robojs-robot-status robot="{{item.id}}"></robojs-robot-status>
+                </template>
+                <paper-button raised on-click="log">Log</paper-button>
                 <div ng-repeat="robot in gameState.currentBattleRobots">
                     <div>{{robot.id}}</div>
                     <div>Health: {{robot.health}}</div>
@@ -26,9 +29,9 @@
     Polymer({
         is: "robojs-arena",
         properties: {
-            robot: {
-                type: String,
-                value: "hello"
+            currentBattleRobots: {
+                type: Array,
+                value: [{id: 'one'},{id: 'two'}]
             }
         },
         ready: function() {
@@ -38,9 +41,8 @@
             this.robot = "hello";
         },
         init: function() {
-            console.log("******* init *******");
-            console.log(this.robot);
-            document.querySelector("robojs-robot-status").init();
+            this.currentBattleRobots = window.roboJS.currentBattleRobots;
+            console.log(this.currentBattleRobots);
         },
         pause: function() {
             window.roboJS.pause();
@@ -48,6 +50,9 @@
         start: function() {
             console.log(window.roboJS);
             window.roboJS.resume();
+        },
+        log: function() {
+            console.log(this.currentBattleRobots);
         }
     });
 </script>

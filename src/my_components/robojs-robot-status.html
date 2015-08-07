@@ -1,6 +1,6 @@
 <dom-module id="robojs-robot-status">
     <template>
-        <div>Robot Name <span>[[robot]]</span><span>{{test}}</span></div>
+        <div>Robot [[robot]]</div>
     </template>
 </dom-module>
 
@@ -8,14 +8,6 @@
     Polymer({
         is: "robojs-robot-status",
         properties: {
-            robot: {
-                type: String,
-                value: "testing"
-            },
-            test: {
-                type: String,
-                value: "testing2"
-            }
         },
         ready: function() {
         },

@@ -3,6 +3,8 @@ window.roboJS = {
     currentGame: null,
     games: null,
     savedRobots: null,
+    currentBattleRobots: null,
+    _currentBattleRobotsInitialized: false,
     sampleRobotOptions: [
         {
             name: "Scan Bot",
@@ -133,12 +135,42 @@ window.roboJS = {
         var ctx = document.querySelector("#canvas").getContext("2d")
         console.log(BattleManager);
         BattleManager.init(ctx, this.currentGame.runningRobots);
-        //BattleManager.addUpdateListener($scope.updateListener);
+
+        // to track the bots' status
+        this._currentBattleRobotsInitialized = false;
+        this.currentBattleRobots = [];
+        BattleManager.addUpdateListener(this.battleUpdated);
+
         BattleManager.run();
         
         this._pages.changePage("arena");
     },
     pause: function() {
         BattleManager.pause();
+    },
+    resume: function() {
+        BattleManager.run();
+    },
+    battleUpdated: function(robots) {
+        // because it is a listener for some reason this = the BattleManager
+        var roboJS = window.roboJS;
+        if(roboJS._currentBattleRobotsInitialized == false) {
+            console.log("update started");
+            for(var x in robots) {
+                var robot = robots[x];
+                roboJS.currentBattleRobots.push({
+                    srcObj: robot,
+                    id: robot.id
+                });
+            };
+
+            roboJS._currentBattleRobotsInitialized = true;
+        }
+        for(var x in roboJS.currentBattleRobots) {
+            var robot = roboJS.currentBattleRobots[x];
+            robot.x = robot.srcObj.x;
+            robot.y = robot.srcObj.y;
+            robot.health = robot.srcObj.health;
+        }
     }
 };
