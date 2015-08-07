@@ -1,34 +1,36 @@
 <dom-module id="robojs-app">
+
+    <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
+    <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+    <link rel="import" href="robojs-main-menu.html">
+    <link rel="import" href="robojs-edit-game.html">
+    <link rel="import" href="robojs-saved-games.html">
+    <link rel="import" href="robojs-arena.html">
+    <link rel="import" href="robojs-saved-robots.html">
+    <link rel="import" href="robojs-robot-editor.html">
+
     <template>
-        <link rel="import" href="../bower_components/paper-toolbar/paper-toolbar.html">
         <paper-toolbar>
             <h1>Robo . JS</h1>
         </paper-toolbar>
         <div class="content">
-            <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
             <iron-pages selected="0">
                 <div>
-                    <link rel="import" href="robojs-main-menu.html">
                     <robojs-main-menu></robojs-main-menu>
                 </div>
                 <div>
-                    <link rel="import" href="robojs-edit-game.html">
                     <robojs-edit-game></robojs-edit-game>
                 </div>
                 <div>
-                    <link rel="import" href="robojs-saved-games.html">
                     <robojs-saved-games></robojs-saved-games>
                 </div>
                 <div>
-                    <link rel="import" href="robojs-arena.html">
                     <robojs-arena></robojs-arena>
                 </div>
                 <div>
-                    <link rel="import" href="robojs-saved-robots.html">
                     <robojs-saved-robots></robojs-saved-robots>
                 </div>
                 <div>
-                    <link rel="import" href="robojs-robot-editor.html">
                     <robojs-robot-editor></robojs-robot-editor>
                 </div>
             </iron-pages>

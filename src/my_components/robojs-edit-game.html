@@ -1,20 +1,22 @@
 <dom-module id="robojs-edit-game">
+
+    <link rel="import" href="../bower_components/paper-input/paper-input.html">
+    <link rel="import" href="../bower_components/paper-item/paper-item.html">
+    <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+
     <template>
-        <link rel="import" href="../bower_components/paper-input/paper-input.html">
         <paper-input label="Game Name" value="{{roboJS.currentGame.name}}"></paper-input>
         <paper-button on-click="addSample" raised>Add Sample Robot</paper-button>
         <paper-button on-click="addSaved" raised>Add Saved Robot</paper-button>
         <paper-button raised>New Robot</paper-button>
         <div class="verital layout">
-            <link rel="import" href="../bower_components/paper-item/paper-item.html">
             <template is="dom-repeat" items="{{robots}}">
                 <paper-item>{{item.name}}</paper-item>
             </template>
         </div>
         <paper-button on-click="saveGame" raised>Save</paper-button>
         <paper-button on-click="play" raised>Play</paper-button>
-        
-        <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+
         <paper-dialog id="addSampleRobotDialog">
           <h2>Add Sample Robot</h2>
     		<div class="vertical layout">

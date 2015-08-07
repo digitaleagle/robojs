@@ -1,8 +1,10 @@
 <dom-module id="robojs-saved-games">
+
+    <link rel="import" href="../bower_components/paper-button/paper-button.html">
+
     <template>
         <h2>Saved Games</h2>
         <div class="vertical layout">
-            <link rel="import" href="../bower_components/paper-button/paper-button.html">
             <template is="dom-repeat" items="{{games}}">
                 <paper-button on-click="loadGame">Game: <span>{{item.name}}</span></paper-button>
             </template>

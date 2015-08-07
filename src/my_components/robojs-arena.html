@@ -1,4 +1,5 @@
 <dom-module id="robojs-arena">
+    <link rel="import" href="robojs-robot-status.html">
     <template>
         <div class="vertical layout">
             <div>
@@ -10,7 +11,6 @@
             </div>
             <div>
                 <h2>Robots</h2>
-                <link rel="import" href="robojs-robot-status.html">
                 <robojs-robot-status robot="{{robot}}"></robojs-robot-status>
                 <div ng-repeat="robot in gameState.currentBattleRobots">
                     <div>{{robot.id}}</div>
